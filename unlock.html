@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sblocca PRO | Calcolatore Forfettario</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="wrap header">
+    <div>
+      <h1>Sblocca PRO</h1>
+      <p class="sub">Incolla la tua chiave e sblocca PDF + scenari.</p>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Tool</a>
+      <a href="pro.html">Acquista</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <label>
+        Chiave PRO
+        <input id="license" placeholder="es. GUMROAD-XXXX-XXXX" />
+      </label>
+
+      <div class="actions">
+        <button id="btnUnlock" class="btn primary">Sblocca</button>
+        <button id="btnLock" class="btn">Disattiva PRO</button>
+      </div>
+
+      <p id="msg" class="muted"></p>
+
+      <p class="muted">
+        (MVP) La chiave viene salvata nel browser. Per una verifica “vera” servirebbe un backend (step successivo).
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const KEY = "forfettario_pro_license";
+    const msg = document.getElementById("msg");
+    const input = document.getElementById("license");
+
+    function setMessage(t){ msg.textContent = t; }
+
+    document.getElementById("btnUnlock").addEventListener("click", () => {
+      const v = (input.value || "").trim();
+      if (v.length < 6) return setMessage("Inserisci una chiave valida.");
+      localStorage.setItem(KEY, v);
+      setMessage("PRO attivata ✅ Torna al tool.");
+    });
+
+    document.getElementById("btnLock").addEventListener("click", () => {
+      localStorage.removeItem(KEY);
+      setMessage("PRO disattivata.");
+    });
+
+    const existing = localStorage.getItem(KEY);
+    if (existing) {
+      input.value = existing;
+      setMessage("PRO già attiva su questo browser ✅");
+    }
+  </script>
+</body>
+</html>

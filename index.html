@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calcolatore Forfettario | Quanto accantonare ogni mese</title>
+  <meta name="description" content="Stima netto e accantonamento mensile nel regime forfettario (stima). Sblocca PDF e confronto scenari con la versione PRO." />
+  <link rel="canonical" href="https://TUO-DOMINIO/" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- GA4 (sostituisci ID) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXX');
+  </script>
+</head>
+<body>
+  <header class="wrap header">
+    <div>
+      <h1>Calcolatore Forfettario</h1>
+      <p class="sub">Scopri quanto ti resta e <b>quanto accantonare ogni mese</b>. (Stima indicativa, non consulenza fiscale.)</p>
+    </div>
+    <nav class="nav">
+      <a href="pro.html">Versione PRO</a>
+      <a href="unlock.html">Sblocca</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+  </header>
+
+  <main class="wrap grid">
+    <section class="card">
+      <h2>Dati</h2>
+
+      <div class="form">
+        <label>
+          Fatturato annuo (€)
+          <input id="revenue" inputmode="decimal" placeholder="es. 30000" />
+        </label>
+
+        <label>
+          Coefficiente redditività (%)
+          <select id="coeff">
+            <option value="0.78">78% (molti servizi)</option>
+            <option value="0.67">67%</option>
+            <option value="0.40">40% (commercio/artigianato – esempio)</option>
+          </select>
+          <small>Se non sai qual è, seleziona quello che più si avvicina (MVP). Poi lo rendiamo per ATECO.</small>
+        </label>
+
+        <label>
+          Aliquota imposta sostitutiva
+          <select id="taxRate">
+            <option value="0.15">15% (standard)</option>
+            <option value="0.05">5% (start-up / primi anni)</option>
+          </select>
+        </label>
+
+        <label>
+          INPS Gestione Separata (%)
+          <input id="inpsRate" inputmode="decimal" value="26" />
+          <small>Valore modificabile. Inserisci la percentuale (es. 26).</small>
+        </label>
+
+        <label>
+          Modalità prudente (extra accantonamento)
+          <select id="safety">
+            <option value="0.00">0%</option>
+            <option value="0.05">+5%</option>
+            <option value="0.10" selected>+10% (consigliato)</option>
+            <option value="0.15">+15%</option>
+          </select>
+        </label>
+
+        <div class="actions">
+          <button id="btnCalc" class="btn primary">Calcola</button>
+          <button id="btnReset" class="btn">Reset</button>
+        </div>
+
+        <p id="error" class="error"></p>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="kpi-head">
+        <h2>Risultato</h2>
+        <span id="proBadge" class="pill">FREE</span>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi">
+          <div class="kpi-label">Netto annuo stimato</div>
+          <div id="outNetYear" class="kpi-value">—</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Netto mensile stimato</div>
+          <div id="outNetMonth" class="kpi-value">—</div>
+        </div>
+        <div class="kpi highlight">
+          <div class="kpi-label">Accantonamento mensile consigliato</div>
+          <div id="outSetAside" class="kpi-value">—</div>
+        </div>
+      </div>
+
+      <details class="details">
+        <summary>Dettagli calcolo</summary>
+        <div class="detail-grid">
+          <div><span>Imponibile (stima)</span><b id="outImponibile">—</b></div>
+          <div><span>INPS (stima)</span><b id="outInps">—</b></div>
+          <div><span>Imposta (stima)</span><b id="outTax">—</b></div>
+        </div>
+        <p class="muted">
+          Nota: stima semplificata. Le regole fiscali possono variare (acconti, deduzioni, casse, ecc.).
+        </p>
+      </details>
+
+      <div class="pro-box">
+        <div>
+          <h3>Vuoi PDF + confronto scenari?</h3>
+          <p class="muted">Sblocca PRO (9€ una tantum): esporta PDF, salva 3 scenari e confrontali.</p>
+        </div>
+        <a class="btn primary" href="pro.html">Vai alla PRO</a>
+      </div>
+
+      <div class="pro-actions">
+        <button id="btnSaveScenario" class="btn" disabled>Salva scenario (PRO)</button>
+        <button id="btnCompare" class="btn" disabled>Confronta scenari (PRO)</button>
+        <button id="btnPdf" class="btn" disabled>Esporta PDF (PRO)</button>
+      </div>
+
+      <div id="scenariosBox" class="scenarios muted"></div>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    <p class="muted">
+      © <span id="year"></span> — Stima indicativa. Non è consulenza fiscale.
+      <a href="terms.html">Termini</a>
+    </p>
+  </footer>
+
+  <script src="calc.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
