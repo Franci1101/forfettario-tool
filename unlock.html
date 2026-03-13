@@ -67,14 +67,19 @@
       track("pro_unlock_failed", { reason: "short_key" });
       return;
     }
+
     localStorage.setItem(KEY, v);
-    setMessage("PRO attivata ✅ Torna al tool.");
+    setMessage("PRO attivata ✅ Reindirizzamento...");
 
     track("pro_unlocked", {
       event_category: "conversion",
       method: "license_key",
       key_length: v.length
     });
+
+    setTimeout(() => {
+      window.location.href = "index.html?unlocked=1";
+    }, 600);
   });
 
   document.getElementById("btnLock").addEventListener("click", () => {
