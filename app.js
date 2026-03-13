@@ -48,12 +48,17 @@ function reset(){
 function updateProUI(){
   const pro = isPro();
   const badge = $("proBadge");
+
   badge.textContent = pro ? "PRO" : "FREE";
   badge.classList.toggle("pro", pro);
 
   $("btnSaveScenario").disabled = !pro;
   $("btnCompare").disabled = !pro;
   $("btnPdf").disabled = !pro;
+
+  // Nasconde il box “Vai alla PRO” quando sei PRO
+  const upsell = $("proUpsellBox");
+  if (upsell) upsell.style.display = pro ? "none" : "";
 }
 
 function saveScenario(currentInputs, currentResult){
