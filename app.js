@@ -32,6 +32,11 @@ function render(res){
   $("outNetYear").textContent = eur(res.netYear);
   $("outNetMonth").textContent = eur(res.netMonth);
   $("outSetAside").textContent = eur(res.setAsideMonth);
+
+  // ✅ NEW: disponibile mensile dopo accantonamento
+  const available = res.netMonth - res.setAsideMonth;
+  $("outAvailable").textContent = eur(available);
+
 }
 
 function reset(){
@@ -203,6 +208,7 @@ function exportPdf(currentInputs, currentResult){
         <div class="row"><span>Netto annuo</span><b>${eur(r.netYear)}</b></div>
         <div class="row"><span>Netto mensile</span><b>${eur(r.netMonth)}</b></div>
         <div class="row"><span>Accantonamento mensile</span><b>${eur(r.setAsideMonth)}</b></div>
+        <div class="row"><span>Disponibile mensile (dopo accantonamento)</span><b>${eur(r.netMonth - r.setAsideMonth)}</b></div>
       </div>
 
       <p class="muted">Generato il: ${new Date().toLocaleString("it-IT")}</p>
