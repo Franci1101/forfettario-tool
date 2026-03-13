@@ -139,6 +139,31 @@ function compareScenarios(){
   track("pro_compare_scenarios", { event_category: "engagement" });
 }
 
+function requirePro(actionName = "questa funzione") {
+  if (isPro()) return true;
+
+  const box = $("scenariosBox");
+  if (box) {
+    box.innerHTML = `
+      <div class="card" style="padding:12px; margin-top:10px; border:1px solid rgba(59,130,246,.35)">
+        <b>Funzione PRO</b>
+        <p class="muted" style="margin:6px 0 10px 0">
+          Per usare <b>${actionName}</b> devi sbloccare PRO.
+        </p>
+        <a class="btn primary" href="pro.html" id="ctaGoPro">Vai alla PRO</a>
+        <a class="btn" href="unlock.html" style="margin-left:8px">Ho già la chiave</a>
+      </div>
+    `;
+    box.querySelector("#ctaGoPro")?.addEventListener("click", () => {
+      track("click_go_pro_from_gate", { event_category: "engagement", action: actionName });
+    });
+  }
+
+  setError(""); // niente errore rosso
+  track("pro_gate_shown", { event_category: "engagement", action: actionName });
+  return false;
+}
+
 function exportPdf(currentInputs, currentResult){
   const inp = currentInputs;
   const r = currentResult;
@@ -193,6 +218,14 @@ document.addEventListener("DOMContentLoaded", () => {
   renderScenarios();
   reset();
 
+  // toast semplice dopo sblocco
+  const p = new URLSearchParams(window.location.search);
+  if (p.get("unlocked") === "1") {
+    setError("PRO attivata ✅ Ora puoi usare PDF e scenari.");
+    // pulisci url
+    history.replaceState({}, "", window.location.pathname);
+  }
+
   $("btnCalc").addEventListener("click", () => {
     track("click_calcola", { event_category:"engagement", event_label:"Calcolo forfettario" });
 
@@ -222,19 +255,19 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   $("btnSaveScenario").addEventListener("click", () => {
-    if (!isPro()) return setError("Funzione PRO. Vai su PRO → acquista → sblocca.");
+    if (!requirePro("Salva scenario")) return;
     if (!lastInputs || !lastResult) return setError("Prima fai un calcolo.");
     saveScenario(lastInputs, lastResult);
     track("pro_save_scenario", { event_category:"engagement" });
   });
 
   $("btnCompare").addEventListener("click", () => {
-    if (!isPro()) return setError("Funzione PRO. Vai su PRO → acquista → sblocca.");
+    if (!requirePro("Confronto scenari")) return;
     compareScenarios();
   });
 
   $("btnPdf").addEventListener("click", () => {
-    if (!isPro()) return setError("Funzione PRO. Vai su PRO → acquista → sblocca.");
+    if (!requirePro("Esporta PDF")) return;
     if (!lastInputs || !lastResult) return setError("Prima fai un calcolo.");
     exportPdf(lastInputs, lastResult);
   });
