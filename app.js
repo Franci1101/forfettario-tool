@@ -67,12 +67,20 @@ function updateProUI(){
 }
 
 function saveScenario(currentInputs, currentResult){
+  // calcola available (proteggi contro NaN)
+  const setAside = Number.isFinite(currentResult.setAsideMonth) ? currentResult.setAsideMonth : 0;
+  const netMonth = Number.isFinite(currentResult.netMonth) ? currentResult.netMonth : 0;
+  const available = netMonth - setAside;
+
   const scenarios = JSON.parse(localStorage.getItem(SCENARIOS_KEY) || "[]");
   if (scenarios.length >= 3) scenarios.shift(); // mantieni max 3
   scenarios.push({
     ts: Date.now(),
     inputs: currentInputs,
-    result: currentResult
+    result: {
+      ...currentResult,
+      available // salvo anche il valore calcolato per comodità
+    }
   });
   localStorage.setItem(SCENARIOS_KEY, JSON.stringify(scenarios));
   renderScenarios();
@@ -90,8 +98,12 @@ function renderScenarios(){
       <b>Scenari salvati</b>
       <ul class="list">
         ${scenarios.map((s,i) => {
-          const r = s.result;
-          return `<li>#${i+1} — Netto mese: <b>${eur(r.netMonth)}</b>, Accantona: <b>${eur(r.setAsideMonth)}</b></li>`;
+          const r = s.result || {};
+          // sicurezza: fallback se qualche proprietà non esiste
+          const netMonth = Number.isFinite(r.netMonth) ? r.netMonth : NaN;
+          const setAside = Number.isFinite(r.setAsideMonth) ? r.setAsideMonth : NaN;
+          const available = Number.isFinite(r.available) ? r.available : (Number.isFinite(netMonth) && Number.isFinite(setAside) ? (netMonth - setAside) : NaN);
+          return `<li>#${i+1} — Netto mese: <b>${eur(netMonth)}</b>, Accantona: <b>${eur(setAside)}</b>, Disponibile: <b>${eur(available)}</b></li>`;
         }).join("")}
       </ul>
     </div>
