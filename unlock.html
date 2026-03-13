@@ -48,29 +48,47 @@
   </main>
 
   <script>
-    const KEY = "forfettario_pro_license";
-    const msg = document.getElementById("msg");
-    const input = document.getElementById("license");
+  const KEY = "forfettario_pro_license";
+  const msg = document.getElementById("msg");
+  const input = document.getElementById("license");
 
-    function setMessage(t){ msg.textContent = t; }
+  function setMessage(t){ msg.textContent = t; }
 
-    document.getElementById("btnUnlock").addEventListener("click", () => {
-      const v = (input.value || "").trim();
-      if (v.length < 6) return setMessage("Inserisci una chiave valida.");
-      localStorage.setItem(KEY, v);
-      setMessage("PRO attivata ✅ Torna al tool.");
-    });
+  function track(eventName, params = {}) {
+    try {
+      if (typeof gtag === "function") gtag("event", eventName, params);
+    } catch (_) {}
+  }
 
-    document.getElementById("btnLock").addEventListener("click", () => {
-      localStorage.removeItem(KEY);
-      setMessage("PRO disattivata.");
-    });
-
-    const existing = localStorage.getItem(KEY);
-    if (existing) {
-      input.value = existing;
-      setMessage("PRO già attiva su questo browser ✅");
+  document.getElementById("btnUnlock").addEventListener("click", () => {
+    const v = (input.value || "").trim();
+    if (v.length < 6) {
+      setMessage("Inserisci una chiave valida.");
+      track("pro_unlock_failed", { reason: "short_key" });
+      return;
     }
-  </script>
+    localStorage.setItem(KEY, v);
+    setMessage("PRO attivata ✅ Torna al tool.");
+
+    track("pro_unlocked", {
+      event_category: "conversion",
+      method: "license_key",
+      key_length: v.length
+    });
+  });
+
+  document.getElementById("btnLock").addEventListener("click", () => {
+    localStorage.removeItem(KEY);
+    setMessage("PRO disattivata.");
+
+    track("pro_locked", { event_category: "engagement" });
+  });
+
+  const existing = localStorage.getItem(KEY);
+  if (existing) {
+    input.value = existing;
+    setMessage("PRO già attiva su questo browser ✅");
+  }
+</script>
 </body>
 </html>
