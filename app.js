@@ -239,6 +239,13 @@ document.addEventListener("DOMContentLoaded", () => {
     exportPdf(lastInputs, lastResult);
   });
 
+  $("btnGoPro")?.addEventListener("click", () => {
+    track("click_vai_pro", {
+        event_category: "engagement",
+        event_label: "Vai alla PRO"
+    });
+  });
+
   // aggiorna badge pro se l’utente sblocca in un altro tab e torna qui
   window.addEventListener("focus", updateProUI);
 });
