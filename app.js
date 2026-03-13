@@ -119,16 +119,17 @@ function compareScenarios(){
     const inp = s.inputs;
     const r = s.result;
     return `
-      <tr>
-        <td>${i+1}</td>
-        <td>${eur(inp.revenue)}</td>
-        <td>${Math.round(inp.coeff*100)}%</td>
-        <td>${Math.round(inp.inpsRate*100)}%</td>
-        <td>${Math.round(inp.taxRate*100)}%</td>
-        <td>${eur(r.netMonth)}</td>
-        <td>${eur(r.setAsideMonth)}</td>
-      </tr>
-    `;
+    <tr>
+      <td>${i+1}</td>
+      <td>${eur(inp.revenue)}</td>
+      <td>${Math.round(inp.coeff*100)}%</td>
+      <td>${Math.round(inp.inpsRate*100)}%</td>
+      <td>${Math.round(inp.taxRate*100)}%</td>
+      <td>${eur(r.netMonth)}</td>
+      <td>${eur(r.setAsideMonth)}</td>
+      <td>${eur(r.netMonth - r.setAsideMonth)}</td>
+    </tr>
+  `;
   }).join("");
 
   const w = window.open("", "_blank");
@@ -147,7 +148,7 @@ function compareScenarios(){
         <thead>
           <tr>
             <th>#</th><th>Fatturato</th><th>Coeff</th><th>INPS</th><th>Aliquota</th>
-            <th>Netto/mese</th><th>Accantona/mese</th>
+            <th>Netto/mese</th><th>Accantona/mese</th><th>Disponibile/mese</th>
           </tr>
         </thead>
         <tbody>${rows}</tbody>
