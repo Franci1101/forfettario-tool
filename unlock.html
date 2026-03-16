@@ -14,9 +14,21 @@
 
   gtag('config', 'G-N61X605S7R');
   </script>
-  <link rel="canonical" href="https://forfettario-tool.pages.dev/unlock">
+  <link rel="canonical" href="https://forfettario-tool.pages.dev/unlock.html">
 </head>
 <body>
+  <div id="cookieBanner" class="cookie-banner">
+    <div class="cookie-content">
+      <p>
+        Questo sito utilizza cookie tecnici e strumenti di analisi (Google Analytics)
+        per migliorare l'esperienza utente.
+      </p>
+      <div class="cookie-actions">
+        <button id="acceptCookies" class="btn primary">Accetta</button>
+        <button id="declineCookies" class="btn">Rifiuta</button>
+      </div>
+    </div>
+  </div>
   <header class="wrap header">
     <div>
       <h1>Sblocca PRO</h1>
@@ -96,6 +108,48 @@
     input.value = existing;
     setMessage("PRO già attiva su questo browser ✅");
   }
+</script>
+<script>
+const cookieKey = "cookie_consent";
+
+function enableAnalytics(){
+  if (typeof gtag === "function") {
+    gtag('consent', 'update', {
+      'analytics_storage': 'granted'
+    });
+  }
+}
+
+function disableAnalytics(){
+  if (typeof gtag === "function") {
+    gtag('consent', 'update', {
+      'analytics_storage': 'denied'
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const banner = document.getElementById("cookieBanner");
+  const consent = localStorage.getItem(cookieKey);
+
+  if (!consent){
+    banner.classList.add("show");
+  } else if (consent === "accepted"){
+    enableAnalytics();
+  }
+
+  document.getElementById("acceptCookies").onclick = () => {
+    localStorage.setItem(cookieKey,"accepted");
+    enableAnalytics();
+    banner.remove();
+  };
+
+  document.getElementById("declineCookies").onclick = () => {
+    localStorage.setItem(cookieKey,"declined");
+    disableAnalytics();
+    banner.remove();
+  };
+});
 </script>
 </body>
 </html>
