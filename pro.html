@@ -15,13 +15,25 @@
 
   gtag('config', 'G-N61X605S7R');
   </script>
-  <link rel="canonical" href="https://forfettario-tool.pages.dev/pro">
+  <link rel="canonical" href="https://forfettario-tool.pages.dev/pro.html">
 </head>
 <body>
+  <div id="cookieBanner" class="cookie-banner">
+    <div class="cookie-content">
+      <p>
+        Questo sito utilizza cookie tecnici e strumenti di analisi (Google Analytics)
+        per migliorare l'esperienza utente.
+      </p>
+      <div class="cookie-actions">
+        <button id="acceptCookies" class="btn primary">Accetta</button>
+        <button id="declineCookies" class="btn">Rifiuta</button>
+      </div>
+    </div>
+  </div>
   <header class="wrap header">
     <div>
       <h1>Versione PRO</h1>
-      <p class="sub">Sblocca le funzioni che fanno risparmiare tempo.</p>
+      <p class="sub">Ottieni un report esportabile e confronta scenari diversi senza rifare tutto ogni volta.</p>
     </div>
     <nav class="nav">
       <a href="index.html">Tool</a>
@@ -37,6 +49,14 @@
         <li><b>3 scenari</b> salvabili (es. 30k vs 40k vs 50k) e confronto rapido.</li>
         <li><b>Storico locale</b> (nel tuo browser) per non rifare tutto ogni volta.</li>
       </ul>
+
+      <div class="card" style="margin-top:14px">
+        <h3>FREE vs PRO</h3>
+        <ul class="list">
+          <li><b>FREE:</b> calcolo netto, accantonamento e disponibile mensile</li>
+          <li><b>PRO:</b> export PDF, salva fino a 3 scenari, confronto scenari</li>
+        </ul>
+      </div>
 
       <div class="pro-box">
         <div>
@@ -57,5 +77,47 @@
       <a class="btn" href="unlock.html">Ho già la chiave → Sblocca</a>
     </section>
   </main>
+  <script>
+const cookieKey = "cookie_consent";
+
+function enableAnalytics(){
+  if (typeof gtag === "function") {
+    gtag('consent', 'update', {
+      'analytics_storage': 'granted'
+    });
+  }
+}
+
+function disableAnalytics(){
+  if (typeof gtag === "function") {
+    gtag('consent', 'update', {
+      'analytics_storage': 'denied'
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const banner = document.getElementById("cookieBanner");
+  const consent = localStorage.getItem(cookieKey);
+
+  if (!consent){
+    banner.classList.add("show");
+  } else if (consent === "accepted"){
+    enableAnalytics();
+  }
+
+  document.getElementById("acceptCookies").onclick = () => {
+    localStorage.setItem(cookieKey,"accepted");
+    enableAnalytics();
+    banner.remove();
+  };
+
+  document.getElementById("declineCookies").onclick = () => {
+    localStorage.setItem(cookieKey,"declined");
+    disableAnalytics();
+    banner.remove();
+  };
+});
+</script>
 </body>
 </html>
