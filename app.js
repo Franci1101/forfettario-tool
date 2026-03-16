@@ -48,6 +48,7 @@ function reset(){
   render({ imponibile:NaN, inps:NaN, tax:NaN, netYear:NaN, netMonth:NaN, setAsideMonth:NaN });
   setError("");
   $("scenariosBox").textContent = "";
+  localStorage.removeItem(SCENARIOS_KEY);
 }
 
 function updateProUI(){
@@ -169,9 +170,12 @@ function requirePro(actionName = "questa funzione") {
   if (box) {
     box.innerHTML = `
       <div class="card" style="padding:12px; margin-top:10px; border:1px solid rgba(59,130,246,.35)">
-        <b>Funzione PRO</b>
-        <p class="muted" style="margin:6px 0 10px 0">
+        <b>🔒 Questa funzione è disponibile nella versione PRO.</b>
+        <p class="muted" style="margin:8px 0 6px 0">
           Per usare <b>${actionName}</b> devi sbloccare PRO.
+        </p>
+        <p class="muted" style="margin:0 0 12px 0">
+          Costo: <b>9€ una tantum</b>.
         </p>
         <a class="btn primary" href="pro.html" id="ctaGoPro">Vai alla PRO</a>
         <a class="btn" href="unlock.html" style="margin-left:8px">Ho già la chiave</a>
