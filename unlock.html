@@ -70,6 +70,7 @@
     }
 
     localStorage.setItem(KEY, v);
+    localStorage.removeItem("forfettario_scenarios");
     setMessage("PRO attivata ✅ Reindirizzamento...");
 
     track("pro_unlocked", {
