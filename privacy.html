@@ -1,27 +1,164 @@
 <!doctype html>
 <html lang="it">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Privacy</title>
-  <link rel="stylesheet" href="style.css" />
-    <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-N61X605S7R"></script>
-  <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Privacy Policy</title>
+<link rel="stylesheet" href="style.css" />
 
-  gtag('config', 'G-N61X605S7R');
-  </script>
-  <link rel="canonical" href="https://forfettario-tool.pages.dev/privacy">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-N61X605S7R"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('consent', 'default', {
+  'analytics_storage': 'denied'
+});
+
+gtag('config', 'G-N61X605S7R');
+</script>
+
+<link rel="canonical" href="https://forfettario-tool.pages.dev/privacy.html">
 </head>
+
 <body>
-  <main class="wrap card">
-    <h1>Privacy</h1>
-    <p>Questo sito usa Google Analytics per statistiche aggregate. Non chiediamo dati personali nel tool.</p>
-    <p>La chiave PRO (se inserita) viene salvata nel tuo browser (localStorage).</p>
-    <p class="muted"><a href="index.html">Torna al tool</a></p>
-  </main>
+
+<div id="cookieBanner" class="cookie-banner">
+  <div class="cookie-content">
+    <p>
+      Questo sito utilizza cookie tecnici e strumenti di analisi (Google Analytics)
+      per migliorare l'esperienza utente.
+    </p>
+    <div class="cookie-actions">
+      <button id="acceptCookies" class="btn primary">Accetta</button>
+      <button id="declineCookies" class="btn">Rifiuta</button>
+    </div>
+  </div>
+</div>
+
+<main class="wrap card">
+
+<h1>Privacy Policy</h1>
+
+<p>
+Questa pagina descrive le modalità di gestione dei dati personali degli utenti che
+visitano il sito <b>forfettario-tool.pages.dev</b>.
+</p>
+
+<h2>Dati raccolti</h2>
+
+<p>
+Il sito non richiede registrazione e non raccoglie dati personali identificativi
+per l'utilizzo del calcolatore.
+</p>
+
+<p>
+I dati inseriti nel tool (fatturato, coefficienti, ecc.) rimangono nel browser
+dell’utente e non vengono inviati al server del sito.
+</p>
+
+<h2>LocalStorage del browser</h2>
+
+<p>
+Il sito utilizza la memoria locale del browser (localStorage) esclusivamente
+per salvare:
+</p>
+
+<ul class="list">
+<li>la chiave di sblocco della versione PRO</li>
+<li>gli scenari salvati nella versione PRO</li>
+<li>alcune preferenze di utilizzo del tool</li>
+</ul>
+
+<p>
+Questi dati rimangono sul dispositivo dell’utente e possono essere cancellati
+in qualsiasi momento tramite il browser o tramite le funzioni di reset del sito.
+</p>
+
+<h2>Google Analytics</h2>
+
+<p>
+Il sito utilizza Google Analytics per raccogliere statistiche aggregate e
+anonimizzate sull’utilizzo del sito (visualizzazioni di pagina, eventi,
+interazioni con il calcolatore).
+</p>
+
+<p>
+Il tracciamento avviene solo dopo il consenso espresso tramite il banner cookie.
+</p>
+
+<h2>Finalità del trattamento</h2>
+
+<p>I dati tecnici vengono utilizzati esclusivamente per:</p>
+
+<ul class="list">
+<li>analizzare l'utilizzo del sito</li>
+<li>migliorare le funzionalità del calcolatore</li>
+<li>monitorare eventuali problemi tecnici</li>
+</ul>
+
+<h2>Diritti dell'utente</h2>
+
+<p>
+Gli utenti possono cancellare i dati salvati nel browser in qualsiasi momento
+cancellando i cookie o la memoria locale del sito.
+</p>
+
+<h2>Aggiornamenti</h2>
+
+<p>
+Questa informativa può essere aggiornata in qualsiasi momento per riflettere
+modifiche tecniche o normative.
+</p>
+
+<p class="muted">
+<a href="index.html">Torna al calcolatore</a>
+</p>
+
+</main>
+<script>
+const cookieKey = "cookie_consent";
+
+function enableAnalytics(){
+  if (typeof gtag === "function") {
+    gtag('consent', 'update', {
+      'analytics_storage': 'granted'
+    });
+  }
+}
+
+function disableAnalytics(){
+  if (typeof gtag === "function") {
+    gtag('consent', 'update', {
+      'analytics_storage': 'denied'
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const banner = document.getElementById("cookieBanner");
+  const consent = localStorage.getItem(cookieKey);
+
+  if (!consent){
+    banner.classList.add("show");
+  } else if (consent === "accepted"){
+    enableAnalytics();
+  }
+
+  document.getElementById("acceptCookies").onclick = () => {
+    localStorage.setItem(cookieKey,"accepted");
+    enableAnalytics();
+    banner.remove();
+  };
+
+  document.getElementById("declineCookies").onclick = () => {
+    localStorage.setItem(cookieKey,"declined");
+    disableAnalytics();
+    banner.remove();
+  };
+});
+</script>
 </body>
 </html>
