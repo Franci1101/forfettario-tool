@@ -8,7 +8,7 @@ function track(eventName, params = {}) {
 
 function isPro(){
   const k = localStorage.getItem(PRO_KEY);
-  return !!(k && k.trim().length >= 6);
+  return !!(k && k.trim().length >= 10);
 }
 
 function readInputs(){
@@ -81,6 +81,12 @@ function updateProUI(){
   // Nasconde il box “Vai alla PRO” quando sei PRO
   const upsell = $("proUpsellBox");
   if (upsell) upsell.style.display = pro ? "none" : "";
+
+  if (isPro()) {
+    track("pro_session_active", {
+      event_category: "engagement"
+    });
+  }
 }
 
 function saveScenario(currentInputs, currentResult){
@@ -262,11 +268,21 @@ document.addEventListener("DOMContentLoaded", () => {
   updateProUI();
   renderScenarios();
 
+  // Tracciamento sessione FREE / PRO
+  if (isPro()) {
+    track("pro_session_active", {
+      event_category: "engagement"
+    });
+  } else {
+    track("free_session_active", {
+      event_category: "engagement"
+    });
+  }
+
   // toast semplice dopo sblocco
   const p = new URLSearchParams(window.location.search);
   if (p.get("unlocked") === "1") {
     setError("PRO attivata ✅ Ora puoi usare PDF e scenari.");
-    // pulisci url
     history.replaceState({}, "", window.location.pathname);
   }
 
@@ -318,11 +334,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   $("btnGoPro")?.addEventListener("click", () => {
     track("click_vai_pro", {
-        event_category: "engagement",
-        event_label: "Vai alla PRO"
+      event_category: "engagement",
+      event_label: "Vai alla PRO"
     });
   });
 
-  // aggiorna badge pro se l’utente sblocca in un altro tab e torna qui
   window.addEventListener("focus", updateProUI);
 });
