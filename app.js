@@ -37,6 +37,23 @@ function render(res){
   const available = res.netMonth - res.setAsideMonth;
   $("outAvailable").textContent = eur(available);
 
+  const upsell = $("proUpsellBox");
+  if (upsell && !isPro()) {
+    upsell.innerHTML = `
+      <div>
+        <h3>Vuoi salvare o esportare questo risultato?</h3>
+        <p class="muted">Sblocca PRO (9€ una tantum): PDF, salvataggio scenari e confronto.</p>
+      </div>
+      <a id="btnGoPro" class="btn primary" href="pro.html">Vai alla PRO</a>
+    `;
+    $("btnGoPro")?.addEventListener("click", () => {
+      track("click_vai_pro", {
+        event_category: "engagement",
+        event_label: "Vai alla PRO"
+      });
+    });
+  }
+
 }
 
 function reset(){
@@ -48,7 +65,6 @@ function reset(){
   render({ imponibile:NaN, inps:NaN, tax:NaN, netYear:NaN, netMonth:NaN, setAsideMonth:NaN });
   setError("");
   $("scenariosBox").textContent = "";
-  localStorage.removeItem(SCENARIOS_KEY);
 }
 
 function updateProUI(){
@@ -242,9 +258,9 @@ let lastResult = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   $("year").textContent = new Date().getFullYear();
+  reset();
   updateProUI();
   renderScenarios();
-  reset();
 
   // toast semplice dopo sblocco
   const p = new URLSearchParams(window.location.search);
