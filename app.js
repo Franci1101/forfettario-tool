@@ -42,7 +42,7 @@ function render(res){
     upsell.innerHTML = `
       <div>
         <h3>Vuoi salvare o esportare questo risultato?</h3>
-        <p class="muted">Sblocca PRO (9€ una tantum): PDF, salvataggio scenari e confronto.</p>
+        <p class="muted">Sblocca PRO (5€ una tantum): PDF, salvataggio scenari e confronto.</p>
       </div>
       <a id="btnGoPro" class="btn primary" href="pro.html">Vai alla PRO</a>
     `;
