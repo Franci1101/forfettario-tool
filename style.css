@@ -100,3 +100,33 @@ small{color:var(--muted)}
 .list{color:var(--muted)}
 .footer{opacity:.9}
 .muted{color:var(--muted)}
+
+.cookie-banner{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#0b1220;
+  border-top:1px solid var(--line);
+  padding:16px;
+  display:none;
+  z-index:999;
+}
+
+.cookie-content{
+  max-width:1050px;
+  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+}
+
+.cookie-actions{
+  display:flex;
+  gap:10px;
+}
+
+.cookie-banner.show{
+  display:block;
+}
