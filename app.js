@@ -197,7 +197,7 @@ function requirePro(actionName = "questa funzione") {
           Per usare <b>${actionName}</b> devi sbloccare PRO.
         </p>
         <p class="muted" style="margin:0 0 12px 0">
-          Costo: <b>9€ una tantum</b>.
+          Costo: <b>5€ una tantum</b>.
         </p>
         <a class="btn primary" href="pro.html" id="ctaGoPro">Scopri la versione PRO</a>
         <a class="btn" href="unlock.html" style="margin-left:8px">Ho già la chiave</a>
