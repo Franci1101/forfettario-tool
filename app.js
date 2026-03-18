@@ -44,12 +44,12 @@ function render(res){
         <h3>Vuoi salvare o esportare questo risultato?</h3>
         <p class="muted">Sblocca PRO (5€ una tantum): PDF, salvataggio scenari e confronto.</p>
       </div>
-      <a id="btnGoPro" class="btn primary" href="pro.html">Vai alla PRO</a>
+      <a id="btnGoPro" class="btn primary" href="pro.html">Scopri la versione PRO</a>
     `;
     $("btnGoPro")?.addEventListener("click", () => {
       track("click_vai_pro", {
         event_category: "engagement",
-        event_label: "Vai alla PRO"
+        event_label: "Scopri la versione PRO"
       });
     });
   }
@@ -199,7 +199,7 @@ function requirePro(actionName = "questa funzione") {
         <p class="muted" style="margin:0 0 12px 0">
           Costo: <b>9€ una tantum</b>.
         </p>
-        <a class="btn primary" href="pro.html" id="ctaGoPro">Vai alla PRO</a>
+        <a class="btn primary" href="pro.html" id="ctaGoPro">Scopri la versione PRO</a>
         <a class="btn" href="unlock.html" style="margin-left:8px">Ho già la chiave</a>
       </div>
     `;
@@ -335,7 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btnGoPro")?.addEventListener("click", () => {
     track("click_vai_pro", {
       event_category: "engagement",
-      event_label: "Vai alla PRO"
+      event_label: "Scopri la versione PRO"
     });
   });
 
